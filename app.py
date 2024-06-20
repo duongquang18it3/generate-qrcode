@@ -17,12 +17,15 @@ def generate_qr_code(data):
     img = qr.make_image(fill_color="black", back_color="white")
     return img
 
-# Lấy form ID từ URL
+# Lấy các tham số từ URL
 params = st.query_params
-form_id = params.get('formid', [''])[0]
+full_name = params.get('fullName', [''])[0]
+whats_app = params.get('whatsApp', [''])[0]
+friends = params.get('friends', [''])[0]
 
-if form_id:
-    qr_code_data = f"Your form ID: {form_id}"
+# Kiểm tra các tham số và tạo mã QR
+if full_name and whats_app and friends:
+    qr_code_data = f"{full_name}-{whats_app}-{friends}"
     qr_code_image = generate_qr_code(qr_code_data)
     
     # Chuyển đổi hình ảnh từ PIL sang bytes
@@ -33,7 +36,7 @@ if form_id:
     # Hiển thị mã QR trên Streamlit
     st.image(byte_im, caption=qr_code_data)
 else:
-    st.write("No form ID provided")
+    st.write("Missing required parameters: fullName, whatsApp, and friends")
 
 # Để kiểm tra và hiển thị URL hiện tại (hữu ích cho việc debug)
 st.write(f"Current URL parameters: {params}")
