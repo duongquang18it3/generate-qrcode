@@ -34,9 +34,9 @@ if full_name and whats_app and friends:
     byte_im = buf.getvalue()
     
     # Hiển thị mã QR trên Streamlit
-    st.image(byte_im, caption=qr_code_data)
+    st.image(byte_im)
 else:
     st.write("Missing required parameters: fullName, whatsApp, and friends")
 
 # Để kiểm tra và hiển thị URL hiện tại (hữu ích cho việc debug)
-st.write(f"Current URL parameters: {params}")
+#st.write(f"Current URL parameters: {params}")
