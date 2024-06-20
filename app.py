@@ -18,7 +18,7 @@ def generate_qr_code(data):
     return img
 
 # Lấy các tham số từ URL
-params = st.query_params
+params = st.experimental_get_query_params()
 full_name = params.get('fullName', [''])[0]
 whats_app = params.get('whatsApp', [''])[0]
 friends = params.get('friends', [''])[0]
