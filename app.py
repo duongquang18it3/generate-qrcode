@@ -19,13 +19,14 @@ def generate_qr_code(data):
 
 # Lấy các tham số từ URL
 params = st.experimental_get_query_params()
-full_name = params.get('fullName', [''])[0]
+first_name = params.get('firstName', [''])[0]
+last_name = params.get('lastName', [''])[0]
 whats_app = params.get('whatsApp', [''])[0]
 friends = params.get('friends', [''])[0]
 
 # Kiểm tra các tham số và tạo mã QR
-if full_name and whats_app and friends:
-    qr_code_data = f"{full_name}-{whats_app}-{friends}"
+if first_name and last_name and whats_app and friends:
+    qr_code_data = f"{first_name}_{last_name}-{whats_app}-{friends}"
     qr_code_image = generate_qr_code(qr_code_data)
     
     # Chuyển đổi hình ảnh từ PIL sang bytes
@@ -36,7 +37,7 @@ if full_name and whats_app and friends:
     # Hiển thị mã QR trên Streamlit
     st.image(byte_im)
 else:
-    st.write("Missing required parameters: fullName, whatsApp, and friends")
+    st.write("Missing required parameters: firstName, lastName, whatsApp, and friends")
 
 # Để kiểm tra và hiển thị URL hiện tại (hữu ích cho việc debug)
 #st.write(f"Current URL parameters: {params}")
