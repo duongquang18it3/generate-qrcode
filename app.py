@@ -2,6 +2,7 @@ import streamlit as st
 import qrcode
 from PIL import Image
 from io import BytesIO
+import base64
 
 # Hàm để tạo mã QR
 def generate_qr_code(data):
@@ -24,9 +25,20 @@ last_name = params.get('lastName', [''])[0]
 whats_app = params.get('whatsApp', [''])[0]
 friends = params.get('friends', [''])[0]
 
+# Giải mã giá trị whats_app từ base64
+def decode_base64(data):
+    try:
+        decoded_bytes = base64.b64decode(data)
+        decoded_str = decoded_bytes.decode('utf-8')
+        return decoded_str
+    except Exception as e:
+        st.write(f"Error decoding base64: {e}")
+        return ""
+
 # Kiểm tra các tham số và tạo mã QR
 if first_name and last_name and whats_app and friends:
-    qr_code_data = f"{first_name}_{last_name}-{whats_app}-{friends}"
+    decoded_whats_app = decode_base64(whats_app)
+    qr_code_data = f"{first_name}_{last_name}-{decoded_whats_app}-{friends}"
     qr_code_image = generate_qr_code(qr_code_data)
     
     # Chuyển đổi hình ảnh từ PIL sang bytes
@@ -40,4 +52,4 @@ else:
     st.write("Missing required parameters: firstName, lastName, whatsApp, and friends")
 
 # Để kiểm tra và hiển thị URL hiện tại (hữu ích cho việc debug)
-#st.write(f"Current URL parameters: {params}")
+# st.write(f"Current URL parameters: {params}")
